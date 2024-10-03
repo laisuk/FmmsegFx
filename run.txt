@@ -1,0 +1,23 @@
+java -p OpenCC-Java.jar --list-modules
+OpenCC.Java file:///D:/codes/Java/demofx/build/libs/OpenCC-Java.jar automatic
+
+java -jar -p OpenCC-Java.jar --describe-module OpenCC.Java
+requires java.base mandated
+contains com.google.gson
+contains com.google.gson.annotations
+contains com.google.gson.internal
+contains com.google.gson.internal.bind
+contains com.google.gson.internal.bind.util
+contains com.google.gson.internal.reflect
+contains com.google.gson.internal.sql
+contains com.google.gson.reflect
+contains com.google.gson.stream
+contains opencc
+
+In project root:
+java -jar  --module-path "lib;C:\Java\javafx-sdk-21.0.2\lib" --add-modules javafx.controls,javafx.fxml,OpenCC.Java  build/libs/demofx-1.0-SNAPSHOT.jar
+
+In build\libs folder: (OpenCC-Java.jar copy to this folder)
+java -jar --module-path ".;C:\Java\javafx-sdk-21.0.2\lib" --add-modules javafx.controls,javafx.fxml,OpenCC.Java demofx-1.0-SNAPSHOT.jar
+
+java -jar --module-path ".;C:\Java\javafx-sdk-21.0.2\lib" --add-modules javafx.controls,javafx.fxml,OpenCC.Java "-Dfile.encoding=UTF8" demofx-1.0-SNAPSHOT.jar
