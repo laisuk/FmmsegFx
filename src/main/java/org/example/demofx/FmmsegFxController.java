@@ -183,7 +183,7 @@ public class FmmsegFxController {
         } else {
             lblDestinationCode.setText(lblSourceCode.getText());
         }
-        lblStatus.setText("Conversion process completed.");
+        lblStatus.setText(String.format("Conversion process completed. [ %s ]", config));
     }
 
     private void startBatchConversion() {
