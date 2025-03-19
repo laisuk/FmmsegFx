@@ -3,7 +3,7 @@ plugins {
     application
     id("org.javamodularity.moduleplugin") version "1.8.15"
     id("org.openjfx.javafxplugin") version "0.1.0"
-    id("org.beryx.jlink") version "3.0.1"
+    id("org.beryx.jlink") version "3.1.1"
 }
 
 group = "org.example"
@@ -12,7 +12,7 @@ version = "1.0-SNAPSHOT"
 tasks.wrapper {
     // You can either download the binary-only version of Gradle (BIN) or
     // the full version (with sources and documentation) of Gradle (ALL)
-    gradleVersion = "8.11.1"
+    gradleVersion = "8.13"
     distributionType = Wrapper.DistributionType.ALL
 }
 
@@ -41,7 +41,7 @@ application {
 }
 
 javafx {
-    version = "23.0.1"
+    version = "23.0.2"
     modules("javafx.controls", "javafx.fxml")
 }
 
