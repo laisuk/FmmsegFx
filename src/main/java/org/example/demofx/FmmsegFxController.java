@@ -11,6 +11,8 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -44,9 +46,11 @@ public class FmmsegFxController {
             "t2jp (日舊->日新)",
             "jp2t (日新->日舊)");
     @FXML
-    private TextArea textAreaSource;
+//    private TextArea textAreaSource;
+    private CodeArea textAreaSource;
     @FXML
-    private TextArea textAreaDestination;
+//    private TextArea textAreaDestination;
+    private CodeArea textAreaDestination;
     @FXML
     private TextArea textAreaPreview;
     @FXML
@@ -90,6 +94,8 @@ public class FmmsegFxController {
     public void initialize() {
         cbManual.getItems().addAll(CONFIG_LIST);
         cbManual.getSelectionModel().selectFirst();
+        textAreaSource.setParagraphGraphicFactory(LineNumberFactory.get(textAreaSource));
+        textAreaDestination.setParagraphGraphicFactory(LineNumberFactory.get(textAreaDestination));
     }
 
     private boolean isOpenFileDisabled = false;
@@ -109,7 +115,8 @@ public class FmmsegFxController {
         String inputText = getClipboardTextFx();
         if (!inputText.isEmpty()) {
             // If clipboard has content, update the text area and UI
-            textAreaSource.setText(inputText);
+//            textAreaSource.setText(inputText);
+            textAreaSource.replaceText(inputText);
             openFileName = "";
             updateSourceInfo(zhoCheck(inputText));
             lblFilename.setText("");
@@ -175,7 +182,7 @@ public class FmmsegFxController {
         var config = getConfig();
         String convertedText = convert(inputText, config, cbPunctuation.isSelected());
 
-        textAreaDestination.setText(convertedText);
+        textAreaDestination.replaceText(convertedText);
         if (rbManual.isSelected()) {
             lblDestinationCode.setText(cbManual.getValue() != null ? cbManual.getValue() : config);
         } else if (!lblSourceCode.getText().contains("non") && !lblSourceCode.getText().isEmpty()) {
@@ -289,7 +296,7 @@ public class FmmsegFxController {
     private void displayFileContents(File file) {
         try {
             String content = Files.readString(file.toPath());
-            textAreaSource.setText(content);
+            textAreaSource.replaceText(content);
             openFileName = file.toString();
             updateSourceInfo(zhoCheck(content));
         } catch (IOException e) {
@@ -384,7 +391,7 @@ public class FmmsegFxController {
                     textAreaPreview.setText(content);
                     lblStatus.setText(String.format("File Preview: %s", selectedItem));
                 } catch (IOException e) {
-                    textAreaSource.setText("Error reading file: " + e.getMessage());
+                    textAreaSource.replaceText("Error reading file: " + e.getMessage());
                 }
             } else {
                 textAreaPreview.setText("Selected file is not a valid text file.");
@@ -453,7 +460,7 @@ public class FmmsegFxController {
                         content.append(line).append("\n");
                     }
                     reader.close();
-                    textAreaSource.setText(content.toString());
+                    textAreaSource.replaceText(content.toString());
                     openFileName = file.toString();
                     updateSourceInfo(zhoCheck(content.toString()));
                     success = true;
@@ -461,7 +468,7 @@ public class FmmsegFxController {
                     lblStatus.setText("Error: " + e.getMessage());
                 }
             } else {
-                textAreaSource.setText("Not a valid text file.");
+                textAreaSource.replaceText("Not a valid text file.");
             }
         }
         dragEvent.setDropCompleted(success);
@@ -511,10 +518,10 @@ public class FmmsegFxController {
     }
 
     public void onBthClearSourceClicked() {
-        textAreaSource.setText("");
+        textAreaSource.replaceText("");
     }
 
     public void onBthClearDestinationClicked() {
-        textAreaDestination.setText("");
+        textAreaDestination.replaceText("");
     }
 } // class DemoFxController

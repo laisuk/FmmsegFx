@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "org.example"
-version = "1.0-SNAPSHOT"
+version = "2.0-SNAPSHOT"
 
 tasks.wrapper {
     // You can either download the binary-only version of Gradle (BIN) or
@@ -48,6 +48,7 @@ javafx {
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+    implementation("org.fxmisc.richtext:richtextfx:0.11.5")
 //    implementation(files("lib/OpenCCJava.jar"))
 //    implementation(fileTree("lib") {include("*.jar")})
 }

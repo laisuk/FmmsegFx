@@ -4,6 +4,7 @@ module org.example.demofx {
     requires java.datatransfer;
     requires java.desktop;
     requires java.sql;
+    requires org.fxmisc.richtext;
 
     opens org.example.demofx to javafx.fxml;
     exports org.example.demofx;
