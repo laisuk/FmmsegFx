@@ -18,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -295,7 +296,19 @@ public class FmmsegFxController {
 
     private void displayFileContents(File file) {
         try {
-            String content = Files.readString(file.toPath());
+            // Read the file content as bytes
+            byte[] bytes = Files.readAllBytes(file.toPath());
+
+            // Check if the file starts with BOM for UTF-8
+            int bomLength = 0;
+            if (bytes.length >= 3 && bytes[0] == (byte) 0xEF && bytes[1] == (byte) 0xBB && bytes[2] == (byte) 0xBF) {
+                bomLength = 3;  // UTF-8 BOM is 3 bytes long
+            }
+
+            // Create a string without BOM
+            String content = new String(bytes, bomLength, bytes.length - bomLength, StandardCharsets.UTF_8);
+
+            // Set the text in the text area
             textAreaSource.replaceText(content);
             openFileName = file.toString();
             updateSourceInfo(zhoCheck(content));
