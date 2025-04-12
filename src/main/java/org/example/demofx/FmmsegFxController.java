@@ -473,9 +473,14 @@ public class FmmsegFxController {
                         content.append(line).append("\n");
                     }
                     reader.close();
-                    textAreaSource.replaceText(content.toString());
+                    String text = content.toString();
+                    // Remove BOM if present
+                    if (text.startsWith("\uFEFF")) {
+                        text = text.substring(1);
+                    }
+                    textAreaSource.replaceText(text);
                     openFileName = file.toString();
-                    updateSourceInfo(zhoCheck(content.toString()));
+                    updateSourceInfo(zhoCheck(text));
                     success = true;
                 } catch (Exception e) {
                     lblStatus.setText("Error: " + e.getMessage());
