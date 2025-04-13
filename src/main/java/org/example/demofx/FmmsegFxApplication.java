@@ -11,7 +11,7 @@ public class FmmsegFxApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(FmmsegFxApplication.class.getResource("fmmsegfx-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 960, 700);
+        Scene scene = new Scene(fxmlLoader.load(), 1020, 700);
         stage.setTitle("FmmsegFX 1.0");
         stage.setScene(scene);
         stage.show();
