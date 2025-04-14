@@ -14,10 +14,7 @@ import javafx.util.Duration;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -296,24 +293,29 @@ public class FmmsegFxController {
 
     private void displayFileContents(File file) {
         try {
-            // Read the file content as bytes
-            byte[] bytes = Files.readAllBytes(file.toPath());
-
-            // Check if the file starts with BOM for UTF-8
-            int bomLength = 0;
-            if (bytes.length >= 3 && bytes[0] == (byte) 0xEF && bytes[1] == (byte) 0xBB && bytes[2] == (byte) 0xBF) {
-                bomLength = 3;  // UTF-8 BOM is 3 bytes long
-            }
-
-            // Create a string without BOM
-            String content = new String(bytes, bomLength, bytes.length - bomLength, StandardCharsets.UTF_8);
-
-            // Set the text in the text area
+            String content = readUtf8TextFile(file);
             textAreaSource.replaceText(content);
             openFileName = file.toString();
             updateSourceInfo(zhoCheck(content));
         } catch (IOException e) {
             lblStatus.setText("Error reading file: " + e.getMessage());
+        }
+    }
+
+    public static String readUtf8TextFile(File file) throws IOException {
+        try (InputStream in = new FileInputStream(file)) {
+            byte[] bytes = in.readAllBytes();
+
+            // Remove UTF-8 BOM if present
+            int bomLength = 0;
+            if (bytes.length >= 3 &&
+                    bytes[0] == (byte) 0xEF &&
+                    bytes[1] == (byte) 0xBB &&
+                    bytes[2] == (byte) 0xBF) {
+                bomLength = 3;
+            }
+
+            return new String(bytes, bomLength, bytes.length - bomLength, StandardCharsets.UTF_8);
         }
     }
 
@@ -452,43 +454,53 @@ public class FmmsegFxController {
     }
 
     public void onTaSourceDragOver(DragEvent dragEvent) {
-        if (dragEvent.getGestureSource() != textAreaSource && dragEvent.getDragboard().hasFiles()) {
+        Dragboard dragboard = dragEvent.getDragboard();
+
+        if (dragEvent.getGestureSource() != textAreaSource &&
+                (dragboard.hasFiles() || dragboard.hasString())) {
+
             dragEvent.acceptTransferModes(TransferMode.COPY);
         }
+
         dragEvent.consume();
     }
+
 
     public void onTaDragDropped(DragEvent dragEvent) {
         Dragboard dragboard = dragEvent.getDragboard();
         boolean success = false;
+
         if (dragboard.hasFiles()) {
-//            File file = dragboard.getFiles().get(0);
             File file = dragboard.getFiles().getFirst();
+
             if (isTextFile(file)) {
                 try {
-                    BufferedReader reader = new BufferedReader(new FileReader(file));
-                    String line;
-                    StringBuilder content = new StringBuilder();
-                    while ((line = reader.readLine()) != null) {
-                        content.append(line).append("\n");
-                    }
-                    reader.close();
-                    String text = content.toString();
-                    // Remove BOM if present
-                    if (text.startsWith("\uFEFF")) {
-                        text = text.substring(1);
-                    }
-                    textAreaSource.replaceText(text);
+                    String content = readUtf8TextFile(file);
+                    textAreaSource.replaceText(content);
                     openFileName = file.toString();
-                    updateSourceInfo(zhoCheck(text));
+                    updateSourceInfo(zhoCheck(content));
                     success = true;
-                } catch (Exception e) {
+                } catch (IOException e) {
                     lblStatus.setText("Error: " + e.getMessage());
                 }
             } else {
                 textAreaSource.replaceText("Not a valid text file.");
             }
+        } else if (dragboard.hasString()) {
+            // User dragged in plain text
+            String text = dragboard.getString();
+
+            // Remove BOM if present (just in case)
+            if (text.startsWith("\uFEFF")) {
+                text = text.substring(1);
+            }
+
+            textAreaSource.replaceText(text);
+            openFileName = "<pasted text>";
+            updateSourceInfo(zhoCheck(text));
+            success = true;
         }
+
         dragEvent.setDropCompleted(success);
         dragEvent.consume();
     }
