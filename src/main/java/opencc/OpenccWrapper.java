@@ -23,8 +23,6 @@ public class OpenccWrapper {
 
     private native void opencc_free(long instance);
 
-//    private native void opencc_string_free(String ptr);
-
     private native String opencc_last_error();
 
     private final long instance;
@@ -56,6 +54,9 @@ public class OpenccWrapper {
         byte[] configBytes = config.getBytes(StandardCharsets.UTF_8);
 
         byte[] rawOutput = opencc_convert(instance, inputBytes, configBytes, punctuation);
+        if (rawOutput == null) {
+            return "";  // or throw an exception / return error message
+        }
         return new String(rawOutput, StandardCharsets.UTF_8);  // Handle as UTF-8
     }
 

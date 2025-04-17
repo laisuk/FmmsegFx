@@ -49,3 +49,13 @@ copy ZhoWrapper.dll, opencc_fmmseg_capi.dll to root (or to java.library.path)
 run from root: (Linux not work, have to copy libxxxxx.so to java.library.path)
 java openccwrapper/UseOpenCCWrapper
 
+=============
+OpenccWrapper (New Method)
+Edit OpenccWrapper.java
+javac -h . OpenccWrapper.java
+=> opencc_OpenccWrapper.h
+Edit OpenccWrapper.cpp
+== Windows ==
+g++ -shared -o OpenccWrapper.dll OpenccWrapper.cpp -I . -I "C:\Program Files\Java\jdk-21\include\" -I "C:\Program Files\Java\jdk-21\include\win32" -L. -lopencc_fmmseg_capi
+=> OpenccWrapper.dll
+Copy OpenccWrapper.dll, opencc_fmmseg_capi.dll to project root

@@ -68,16 +68,13 @@ JNIEXPORT void JNICALL Java_opencc_OpenccWrapper_opencc_1set_1parallel(JNIEnv *e
     opencc_set_parallel((void *)instance, (bool)is_parallel);
 }
 
-JNIEXPORT void JNICALL Java_opencc_OpenccWrapper_opencc_1string_1free(JNIEnv *env, jobject obj, jstring ptr) {
-    const char *str = env->GetStringUTFChars(ptr, NULL);
-    env->ReleaseStringUTFChars(ptr, str); // Release the string
-}
-
 JNIEXPORT jstring JNICALL Java_opencc_OpenccWrapper_opencc_1last_1error(JNIEnv *env, jobject obj) {
     char *last_error = opencc_last_error();
-    jstring result = env->NewStringUTF(last_error);
+    jstring result = nullptr;
+
     if (last_error != NULL) {
-            opencc_string_free(last_error);
+        result = env->NewStringUTF(last_error);
+         opencc_error_free(last_error);
     }
     return result;
 }
