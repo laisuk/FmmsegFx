@@ -19,24 +19,18 @@ public class ZhoConverter {
         if (!configList.contains(config)) {
             return input;
         }
-//        System.loadLibrary("ZhoWrapper");
-        OpenccWrapper wrapper = new OpenccWrapper();
-        long instance = wrapper.getInstance();
-        String results = wrapper.convert(instance, input, config, punctuation);
-        wrapper.releaseInstance(instance);
-        return results;
+        try (OpenccWrapper wrapper = new OpenccWrapper()) {
+            return wrapper.convert(input, config, punctuation);
+        }
     }
 
     public static int zhoCheck(String text) {
         if (text == null || text.isEmpty()) {
             return 0;
         }
-//        System.loadLibrary("ZhoWrapper");
-        OpenccWrapper wrapper = new OpenccWrapper();
-        long instance = wrapper.getInstance();
-        int code = wrapper.zhoCheck(instance, text);
-        wrapper.releaseInstance(instance);
-        return code;
+        try (OpenccWrapper wrapper = new OpenccWrapper()) {
+            return wrapper.zhoCheck(text);
+        }
     } // zhoCheck
 
 }
