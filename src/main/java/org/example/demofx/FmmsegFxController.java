@@ -50,7 +50,8 @@ public class FmmsegFxController {
 //    private TextArea textAreaDestination;
     private CodeArea textAreaDestination;
     @FXML
-    private TextArea textAreaPreview;
+//    private TextArea textAreaPreview;
+    private CodeArea textAreaPreview;
     @FXML
     private RadioButton rbS2t;
     @FXML
@@ -403,13 +404,15 @@ public class FmmsegFxController {
             if (file.isFile() && FILE_EXTENSIONS.contains(fileExtension != null ? fileExtension.toLowerCase() : null)) {
                 try {
                     String content = Files.readString(file.toPath());
-                    textAreaPreview.setText(content);
+//                    textAreaPreview.setText(content);
+                    textAreaPreview.replaceText(content);
                     lblStatus.setText(String.format("File Preview: %s", selectedItem));
                 } catch (IOException e) {
-                    textAreaSource.replaceText("Error reading file: " + e.getMessage());
+                    textAreaPreview.replaceText("Error reading file: " + e.getMessage());
                 }
             } else {
-                textAreaPreview.setText("Selected file is not a valid text file.");
+//                textAreaPreview.setText("Selected file is not a valid text file.");
+                textAreaPreview.replaceText("Selected file is not a valid text file.");
             }
         }
     }
