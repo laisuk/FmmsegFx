@@ -253,7 +253,7 @@
 <!--                                    </TextArea>-->
                                     <VirtualizedScrollPane GridPane.columnIndex="1">
                                         <content>
-                                            <CodeArea fx:id="textAreaPreview" editable="false" style="-fx-border-color: gray; -fx-border-width: 1px; -fx-font-size: 14textpx;" wrapText="true">
+                                            <CodeArea fx:id="textAreaPreview" editable="false" style="-fx-border-color: gray; -fx-border-width: 1px; -fx-font-size: 14px;" wrapText="true">
                                                 <padding>
                                                     <Insets bottom="5.0" left="5.0" top="5.0" />
                                                 </padding>
