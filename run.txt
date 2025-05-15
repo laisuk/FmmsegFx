@@ -21,3 +21,6 @@ In build\libs folder: (OpenCC-Java.jar copy to this folder)
 java -jar --module-path ".;C:\Java\javafx-sdk-21.0.2\lib" --add-modules javafx.controls,javafx.fxml,OpenCC.Java demofx-1.0-SNAPSHOT.jar
 
 java -jar --module-path ".;C:\Java\javafx-sdk-21.0.2\lib" --add-modules javafx.controls,javafx.fxml,OpenCC.Java "-Dfile.encoding=UTF8" demofx-1.0-SNAPSHOT.jar
+
+Zulu Java:
+java -jar "-Dfile.encoding=UTF-8" --module-path "C:\Java\richtextfx" --add-modules org.fxmisc.richtext build/libs/fmmsegfx-2.0-SNAPSHOT.jar
