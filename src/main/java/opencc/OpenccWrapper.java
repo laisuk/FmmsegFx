@@ -21,7 +21,7 @@ public class OpenccWrapper implements AutoCloseable {
 
     private native int opencc_zho_check(long instance, byte[] input);
 
-    private native void opencc_free(long instance);
+    private native void opencc_delete(long instance);
 
     private native String opencc_last_error();
 
@@ -76,7 +76,7 @@ public class OpenccWrapper implements AutoCloseable {
     @Override
     public void close() {
         if (instance != 0) {
-            opencc_free(instance);
+            opencc_delete(instance);
             instance = 0;
         }
     }

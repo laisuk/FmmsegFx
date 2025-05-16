@@ -31,6 +31,7 @@ g++ -shared -o libZhoWrapper.dylib ZhoWrapper.cpp -I . -I "/Library/Java/JavaVir
 
 
 javac -encoding UTF-8 ZhoWrapper.java
+javac -encoding UTF-8 OpenccWrapper.java
 
 javac -encoding UTF-8 UseZhoWrapper.java
 

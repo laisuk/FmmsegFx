@@ -17,11 +17,13 @@ For those who are using the latest JDK, the javac -h command will compile and cr
 
 (New)
 javac -h . ZhoWrapper.java
+javac -h . OpenccWrapper.java
 
 g++ -shared -o ZhoWrapper.dll ZhoWrapper.cpp -I<path_to_jni_include> -I<path_to_java_include> -L<path_to_cpp_dll> -lopencc_fmmseg_capi
 
 Windows:
 g++ -shared -o ZhoWrapper.dll ZhoWrapper.cpp -I . -I "C:\Program Files\Java\jdk-21\include\" -I "C:\Program Files\Java\jdk-21\include\win32" -L. -lopencc_fmmseg_capi
+g++ -shared -o OpenccWrapper.dll OpenccWrapper.cpp -I . -I "C:\Program Files\Java\jdk-21\include\" -I "C:\Program Files\Java\jdk-21\include\win32" -L. -lopencc_fmmseg_capi
 (Note: copy ZhoWrapper.dll to project root or Java LIB_PATH)
 
 Linux:

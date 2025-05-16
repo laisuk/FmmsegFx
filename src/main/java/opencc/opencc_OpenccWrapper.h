@@ -49,10 +49,10 @@ JNIEXPORT jint JNICALL Java_opencc_OpenccWrapper_opencc_1zho_1check
 
 /*
  * Class:     opencc_OpenccWrapper
- * Method:    opencc_free
+ * Method:    opencc_delete
  * Signature: (J)V
  */
-JNIEXPORT void JNICALL Java_opencc_OpenccWrapper_opencc_1free
+JNIEXPORT void JNICALL Java_opencc_OpenccWrapper_opencc_1delete
   (JNIEnv *, jobject, jlong);
 
 /*

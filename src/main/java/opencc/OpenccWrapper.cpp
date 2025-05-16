@@ -39,8 +39,8 @@ JNIEXPORT jbyteArray JNICALL Java_opencc_OpenccWrapper_opencc_1convert(JNIEnv *e
     return result;
 }
 
-JNIEXPORT void JNICALL Java_opencc_OpenccWrapper_opencc_1free(JNIEnv *env, jobject obj, jlong instance) {
-    opencc_free((void *)instance);
+JNIEXPORT void JNICALL Java_opencc_OpenccWrapper_opencc_1delete(JNIEnv *env, jobject obj, jlong instance) {
+    opencc_delete((void *)instance);
 }
 
 JNIEXPORT jint JNICALL Java_opencc_OpenccWrapper_opencc_1zho_1check(JNIEnv *env, jobject obj, jlong instance, jbyteArray input) {
